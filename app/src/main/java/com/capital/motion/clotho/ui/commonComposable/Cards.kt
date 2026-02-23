@@ -1,5 +1,6 @@
 package com.capital.motion.clotho.ui.commonComposable
 
+import android.R.attr.text
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,6 +33,9 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.Icon
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.capital.motion.clotho.ui.theme.Black
@@ -106,7 +110,8 @@ fun MaxWidthCard(title : String, subTitle: String,credits : Int, info : String,n
 
 
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 17.dp)
                 .padding(end = 80.dp)
         ) {
@@ -162,7 +167,8 @@ fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,d
 
 
     Box(
-        modifier.padding(horizontal = 7.dp, vertical = 10.dp)
+        modifier
+            .padding(horizontal = 7.dp, vertical = 10.dp)
             .clip(RoundedCornerShape(14.dp))
             .border(
                 width = 1.5.dp,
@@ -178,7 +184,8 @@ fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,d
                 fontSize = 10.sp,
                 fontFamily = FontFamily(Font(R.font.semi_bold)), color = greyInfo
             ),
-            modifier = Modifier.align(Alignment.TopEnd)
+            modifier = Modifier
+                .align(Alignment.TopEnd)
                 .padding(top = 12.dp, end = 16.dp)
                 .background(color = creditBg, shape = RoundedCornerShape(50))
                 .padding(horizontal = 8.dp, vertical = 6.dp)
@@ -188,7 +195,8 @@ fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,d
         Column {
 
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 17.dp)
                     .padding(end = 10.dp)
             ) {
@@ -307,7 +315,8 @@ fun MaxWidthGreyCard() {
 
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(horizontal = 10.dp, vertical = 15.dp)
 
         ) {
@@ -360,7 +369,8 @@ fun MaxWidthGreyCard() {
                 )
 
                 VerticalDivider(
-                    modifier = Modifier.height(18.dp)
+                    modifier = Modifier
+                        .height(18.dp)
                         .padding(horizontal = 8.dp),
                     color = white,
                     thickness = 1.dp
@@ -377,7 +387,8 @@ fun MaxWidthGreyCard() {
                 )
 
                 VerticalDivider(
-                    modifier = Modifier.height(18.dp)
+                    modifier = Modifier
+                        .height(18.dp)
                         .padding(horizontal = 8.dp),
                     color = white,
                     thickness = 1.dp
@@ -395,11 +406,218 @@ fun MaxWidthGreyCard() {
         }
     }
 }
+
+
+
+@Composable
+fun PersonalInfoCard(
+    sunSign: String,
+    moonSign: String,
+    risingSign: String,
+    date: String,
+    time: String,
+    location: String,
+    modifier: Modifier = Modifier,
+    onEditClick: () -> Unit = {},
+    onInfoClick: () -> Unit = {}
+) {
+
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(14.dp))
+            .border(
+                width = 1.5.dp,
+                color = greyBg,
+                shape = RoundedCornerShape(14.dp)
+            )
+            .background(cardBlackBg)
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 14.dp, vertical = 16.dp)
+        ) {
+
+            // 🔹 Header row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Column {
+                    Text(
+                        text = "YOU.",
+                        fontSize = 26.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = white
+                    )
+
+                    Text(
+                        text = "Personal Details",
+                        fontSize = 18.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = white
+                    )
+                }
+
+                Row {
+                    Image(
+                        painter = painterResource(R.drawable.ic_edit),
+                        contentDescription = "Edit",
+                        modifier = Modifier
+                            .size(22.dp)
+                            .clickable { onEditClick() }
+                    )
+
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    Image(
+                        painter = painterResource(R.drawable.ic_info),
+                        contentDescription = "Info",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // 🔹 Zodiac row
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+                Text(sunSign, color = white, fontSize = 15.sp)
+                VerticalDivider(Modifier
+                    .height(16.dp)
+                    .padding(horizontal = 8.dp), color = white)
+
+                Text("$moonSign Moon", color = white, fontSize = 15.sp)
+                VerticalDivider(Modifier
+                    .height(16.dp)
+                    .padding(horizontal = 8.dp), color = white)
+
+                Text("$risingSign Rising", color = white, fontSize = 15.sp)
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // 🔹 Date / Time / Location row
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+                Text(date, color = greyInfo, fontSize = 13.sp)
+                VerticalDivider(Modifier
+                    .height(14.dp)
+                    .padding(horizontal = 8.dp), color = greyInfo)
+
+                Text(time, color = greyInfo, fontSize = 13.sp)
+                VerticalDivider(Modifier
+                    .height(14.dp)
+                    .padding(horizontal = 8.dp), color = greyInfo)
+
+                Text(location, color = greyInfo, fontSize = 13.sp)
+            }
+        }
+    }
+}
+
+@Composable
+fun ClothoInfoCard(
+    title: String = "CLOTHO.",
+    subtitle: String = "Personalized Astrology",
+    description: String = "Real astrologers wrote it, AI delivers it.",
+    modifier: Modifier = Modifier,
+    onInfoClick: () -> Unit = {}
+) {
+
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(14.dp))
+            .border(
+                width = 1.5.dp,
+                color = greyBg,
+                shape = RoundedCornerShape(14.dp)
+            )
+            .background(cardBlackBg)
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 14.dp, vertical = 16.dp)
+        ) {
+
+            // 🔹 Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Column {
+                    Text(
+                        text = title,
+                        fontSize = 26.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = white
+                    )
+
+                    Text(
+                        text = subtitle,
+                        fontSize = 18.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = white
+                    )
+                }
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_info),
+                    contentDescription = "Info",
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clickable { onInfoClick() }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // 🔹 Description
+            Text(
+                text = description,
+                fontSize = 15.sp,
+                fontFamily = FontFamily(Font(R.font.medium)),
+                color = greyInfo
+            )
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun CardsPreview() {
     ClothoTheme {
-        MaxWidthGreyCard()
+//        PersonalInfoCard(
+//            sunSign = "Taurus",
+//            moonSign = "Scorpio",
+//            risingSign = "Leo",
+//            date = "January 15, 1990",
+//            time = "12:00 AM",
+//            location = "London, UK",
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 7.dp, vertical = 10.dp)
+//        )
 
+
+        ClothoInfoCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 7.dp, vertical = 10.dp),
+            onInfoClick = {
+                // TODO: show info dialog / bottom sheet
+            }
+        )
+
+//        MaxWidthGreyCard()
     }
 }
