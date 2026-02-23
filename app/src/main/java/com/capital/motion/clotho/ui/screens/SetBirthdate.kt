@@ -135,7 +135,9 @@ fun SetBirthdate() {
 
 
             Button(
-                onClick = {},
+                onClick = {
+
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 30.dp)
