@@ -11,11 +11,26 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.capital.motion.clotho.R
 import com.capital.motion.clotho.ui.commonComposable.*
 
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+    navController: NavController,
+    viewModel: AstrologyViewModel = viewModel()
+) {
+    // User info — in a real app this comes from your user ViewModel/repository
+    val userInfo = UserAstrologyInfo(
+        sunSign = "Taurus",
+        moonSign = "Scorpio",
+        risingSign = "Leo",
+        birthDate = "January 15, 1990",
+        birthTime = "12:00 AM",
+        birthLocation = "London, UK"
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -38,13 +53,15 @@ fun DashboardScreen() {
 
             // 🔹 Personal Info Card
             PersonalInfoCard(
-                sunSign = "Taurus",
-                moonSign = "Scorpio",
-                risingSign = "Leo",
-                date = "January 15, 1990",
-                time = "12:00 AM",
-                location = "London, UK",
-                modifier = Modifier.fillMaxWidth().then(cardPadding)
+                sunSign = userInfo.sunSign,
+                moonSign = userInfo.moonSign,
+                risingSign = userInfo.risingSign,
+                date = userInfo.birthDate,
+                time = userInfo.birthTime,
+                location = userInfo.birthLocation,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .then(cardPadding)
             )
 
             // 🔹 Clotho Info Card
@@ -57,17 +74,20 @@ fun DashboardScreen() {
                 }
             )
 
-
-            // 🔹 Your Pattern Card
+            // 🔹 Your Pattern Card — opens detail screen on click
             MaxWidthCard(
                 title = "Your Pattern",
                 subTitle = "Natal Chart Analysis",
                 credits = 5,
                 info = "Your cosmic blueprint at the moment of your birth, revealing personality and destiny.",
-                new = true
+                new = true,
+                onClick = {
+                    viewModel.selectCard(buildYourPatternData(userInfo))
+                    navController.navigate("astrology_detail")
+                }
             )
 
-            // 🔹 Monthly Cycle Row
+            // 🔹 Monthly Cycle Row — each card opens detail screen on click
             val monthlyCycles = listOf("December (12/12)", "January (01/01)")
             Row(
                 modifier = Modifier
@@ -83,12 +103,16 @@ fun DashboardScreen() {
                         info = "Your emotional landscape forecast.",
                         date = true,
                         data = cycle,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            viewModel.selectCard(buildMonthlyCycleData(userInfo, cycle))
+                            navController.navigate("astrology_detail")
+                        }
                     )
                 }
             }
 
-            // 🔹 Grey Cards Section (2 cards)
+            // 🔹 Grey Cards Section
             repeat(2) {
                 MaxWidthGreyCard()
                 Spacer(modifier = Modifier.height(10.dp))
@@ -100,5 +124,5 @@ fun DashboardScreen() {
 @Preview(showBackground = true)
 @Composable
 fun DashboardPreview() {
-    DashboardScreen()
+    DashboardScreen(navController = rememberNavController())
 }

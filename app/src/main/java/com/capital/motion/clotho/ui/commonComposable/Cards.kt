@@ -4,6 +4,7 @@ import android.R.attr.text
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,8 +34,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.clickable
-import androidx.compose.material3.Icon
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,65 +48,54 @@ import com.capital.motion.clotho.ui.theme.greySubTitle
 import com.capital.motion.clotho.ui.theme.white
 import com.capital.motion.clotho.ui.theme.yellowBg
 
-@Composable
-fun MaxWidthCard(title : String, subTitle: String,credits : Int, info : String,new : Boolean) {
+// ─── MaxWidthCard ─────────────────────────────────────────────────────────────
 
+@Composable
+fun MaxWidthCard(
+    title: String,
+    subTitle: String,
+    credits: Int,
+    info: String,
+    new: Boolean,
+    onClick: () -> Unit = {}   // ← new
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 7.dp, vertical = 15.dp)
             .clip(RoundedCornerShape(14.dp))
-            .border(
-                width = 1.5.dp,
-                color = cardBg,
-                shape = RoundedCornerShape(14.dp)
-            )
+            .border(width = 1.5.dp, color = cardBg, shape = RoundedCornerShape(14.dp))
             .background(color = cardBg)
-
+            .clickable { onClick() }   // ← new
     ) {
-
-
         Column(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(top = 12.dp, end = 16.dp),
             horizontalAlignment = Alignment.End
         ) {
-
             Text(
                 text = "$credits credits",
                 fontSize = 12.sp,
                 fontFamily = FontFamily(Font(R.font.semi_bold)),
                 color = greyInfo,
                 modifier = Modifier
-                    .background(
-                        color = creditBg,
-                        shape = RoundedCornerShape(50)
-                    )
+                    .background(color = creditBg, shape = RoundedCornerShape(50))
                     .padding(horizontal = 8.dp, vertical = 4.dp)
             )
             if (new) {
-
                 Spacer(modifier = Modifier.height(6.dp))
-
-
                 Text(
                     text = "NEW",
                     fontSize = 12.sp,
                     fontFamily = FontFamily(Font(R.font.semi_bold)),
                     color = Black,
                     modifier = Modifier
-                        .background(
-                            color = yellowBg,
-                            shape = RoundedCornerShape(4.dp)
-                        )
+                        .background(color = yellowBg, shape = RoundedCornerShape(4.dp))
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 )
             }
         }
-
-
-
 
         Column(
             modifier = Modifier
@@ -115,74 +103,64 @@ fun MaxWidthCard(title : String, subTitle: String,credits : Int, info : String,n
                 .padding(horizontal = 20.dp, vertical = 17.dp)
                 .padding(end = 80.dp)
         ) {
-
-            Row() {
-
-                Text(
-                    text = "$title",
-                    style = TextStyle(
-                        fontSize = 28.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        textAlign = TextAlign.Start,
-                        color = Black
-
-                    )
-
-                )
-
-
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
             Text(
-                text = "$subTitle",
+                text = title,
+                style = TextStyle(
+                    fontSize = 28.sp,
+                    fontFamily = FontFamily(Font(R.font.medium)),
+                    textAlign = TextAlign.Start,
+                    color = Black
+                )
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = subTitle,
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontFamily = FontFamily(Font(R.font.medium)),
                     color = greySubTitle
                 )
-
             )
-
             Spacer(modifier = Modifier.height(6.dp))
-
             Text(
-                text = "$info",
+                text = info,
                 style = TextStyle(
                     fontSize = 22.sp,
                     fontFamily = FontFamily(Font(R.font.medium)),
                     color = greyInfo
                 )
-
             )
         }
-
     }
 }
 
+// ─── MinWidthCard ─────────────────────────────────────────────────────────────
 
 @Composable
-fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,date : Boolean,data : String,  modifier: Modifier = Modifier) {
-
-
+fun MinWidthCard(
+    title: String,
+    subTitle: String,
+    credits: Int,
+    info: String,
+    date: Boolean,
+    data: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}   // ← new
+) {
     Box(
         modifier
             .padding(horizontal = 7.dp, vertical = 10.dp)
             .clip(RoundedCornerShape(14.dp))
-            .border(
-                width = 1.5.dp,
-                color = cardBg,
-                shape = RoundedCornerShape(14.dp)
-            )
+            .border(width = 1.5.dp, color = cardBg, shape = RoundedCornerShape(14.dp))
             .background(color = cardBg)
-
+            .clickable { onClick() }   // ← new
     ) {
         Text(
             text = "$credits credits",
             style = TextStyle(
                 fontSize = 10.sp,
-                fontFamily = FontFamily(Font(R.font.semi_bold)), color = greyInfo
+                fontFamily = FontFamily(Font(R.font.semi_bold)),
+                color = greyInfo
             ),
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -191,142 +169,104 @@ fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,d
                 .padding(horizontal = 8.dp, vertical = 6.dp)
         )
 
-
         Column {
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 17.dp)
                     .padding(end = 10.dp)
             ) {
-
-                Row() {
-
-                    Text(
-                        text = "$title",
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontFamily = FontFamily(Font(R.font.medium)),
-                            textAlign = TextAlign.Start,
-                            color = Black
-
-                        )
-
+                Text(
+                    text = title,
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        textAlign = TextAlign.Start,
+                        color = Black
                     )
-
-
-                }
-
+                )
                 if (date) {
                     Spacer(modifier = Modifier.height(4.dp))
-
                     Text(
-                        text = "$data",
+                        text = data,
                         style = TextStyle(
                             fontSize = 12.sp,
                             fontFamily = FontFamily(Font(R.font.medium)),
                             color = greyInfo
                         )
-
                     )
                 }
-
                 Spacer(modifier = Modifier.height(10.dp))
-
                 Text(
-                    text = "$subTitle",
+                    text = subTitle,
                     style = TextStyle(
                         fontSize = 15.sp,
                         fontFamily = FontFamily(Font(R.font.medium)),
                         color = greySubTitle
                     )
-
                 )
-
                 Spacer(modifier = Modifier.height(6.dp))
-
                 Text(
-                    text = "$info",
+                    text = info,
                     style = TextStyle(
                         fontSize = 15.sp,
                         fontFamily = FontFamily(Font(R.font.medium)),
                         color = greyInfo
                     )
-
                 )
             }
 
-
-
             if (date) {
                 Spacer(modifier = Modifier.height(6.dp))
-                HorizontalDivider(
-                    color = Black,
-                    thickness = 1.dp
-                )
-
+                HorizontalDivider(color = Black, thickness = 1.dp)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 10.dp)
                 ) {
-
                     Text(
                         text = "Dec",
                         fontSize = 12.sp,
                         fontFamily = FontFamily(Font(R.font.medium)),
                         color = Black,
-                        modifier = Modifier
-                            .weight(1f),
+                        modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center
                     )
-
                     Text(
                         text = "Jan",
                         fontSize = 12.sp,
                         fontFamily = FontFamily(Font(R.font.medium)),
                         color = Black,
-                        modifier = Modifier
-                            .weight(1f),
+                        modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center
                     )
                 }
-                }
             }
-
         }
     }
+}
+
+// ─── MaxWidthGreyCard ─────────────────────────────────────────────────────────
 
 @Composable
 fun MaxWidthGreyCard() {
-
-
     Box(
         modifier = Modifier
             .padding(horizontal = 7.dp, vertical = 10.dp)
             .clip(RoundedCornerShape(14.dp))
-            .border(
-                width = 1.5.dp,
-                color = greyBg,
-                shape = RoundedCornerShape(14.dp)
-            )
+            .border(width = 1.5.dp, color = greyBg, shape = RoundedCornerShape(14.dp))
             .background(cardBlackBg)
-
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp, vertical = 15.dp)
-
         ) {
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Text(
                     text = "YOU.",
                     style = TextStyle(
@@ -335,17 +275,13 @@ fun MaxWidthGreyCard() {
                         color = white
                     )
                 )
-
                 Image(
                     painter = painterResource(id = R.drawable.ic_edit),
                     contentDescription = "Edit",
                     modifier = Modifier.size(24.dp)
                 )
-
             }
-
             Spacer(modifier = Modifier.height(4.dp))
-
             Text(
                 text = "Personal Details",
                 style = TextStyle(
@@ -354,60 +290,19 @@ fun MaxWidthGreyCard() {
                     color = white
                 )
             )
-
             Spacer(modifier = Modifier.height(5.dp))
-
-            Row  {
-
-                Text(
-                    text = "Taurus",
-                    style = TextStyle(
-                        fontSize = 15.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = white
-                    )
-                )
-
-                VerticalDivider(
-                    modifier = Modifier
-                        .height(18.dp)
-                        .padding(horizontal = 8.dp),
-                    color = white,
-                    thickness = 1.dp
-                )
-
-
-                Text(
-                    text = "Scorpio Moon",
-                    style = TextStyle(
-                        fontSize = 15.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = white
-                    )
-                )
-
-                VerticalDivider(
-                    modifier = Modifier
-                        .height(18.dp)
-                        .padding(horizontal = 8.dp),
-                    color = white,
-                    thickness = 1.dp
-                )
-
-                Text(
-                    text = "Leo Rising",
-                    style = TextStyle(
-                        fontSize = 15.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = white
-                    )
-                )
+            Row {
+                Text(text = "Taurus", style = TextStyle(fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.medium)), color = white))
+                VerticalDivider(modifier = Modifier.height(18.dp).padding(horizontal = 8.dp), color = white, thickness = 1.dp)
+                Text(text = "Scorpio Moon", style = TextStyle(fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.medium)), color = white))
+                VerticalDivider(modifier = Modifier.height(18.dp).padding(horizontal = 8.dp), color = white, thickness = 1.dp)
+                Text(text = "Leo Rising", style = TextStyle(fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.medium)), color = white))
             }
         }
     }
 }
 
-
+// ─── PersonalInfoCard ─────────────────────────────────────────────────────────
 
 @Composable
 fun PersonalInfoCard(
@@ -421,104 +316,45 @@ fun PersonalInfoCard(
     onEditClick: () -> Unit = {},
     onInfoClick: () -> Unit = {}
 ) {
-
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(14.dp))
-            .border(
-                width = 1.5.dp,
-                color = greyBg,
-                shape = RoundedCornerShape(14.dp)
-            )
+            .border(width = 1.5.dp, color = greyBg, shape = RoundedCornerShape(14.dp))
             .background(cardBlackBg)
     ) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 14.dp, vertical = 16.dp)
-        ) {
-
-            // 🔹 Header row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
+        Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 16.dp)) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Column {
-                    Text(
-                        text = "YOU.",
-                        fontSize = 26.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = white
-                    )
-
-                    Text(
-                        text = "Personal Details",
-                        fontSize = 18.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = white
-                    )
+                    Text(text = "YOU.", fontSize = 26.sp, fontFamily = FontFamily(Font(R.font.medium)), color = white)
+                    Text(text = "Personal Details", fontSize = 18.sp, fontFamily = FontFamily(Font(R.font.medium)), color = white)
                 }
-
                 Row {
-                    Image(
-                        painter = painterResource(R.drawable.ic_edit),
-                        contentDescription = "Edit",
-                        modifier = Modifier
-                            .size(22.dp)
-                            .clickable { onEditClick() }
-                    )
-
+                    Image(painter = painterResource(R.drawable.ic_edit), contentDescription = "Edit", modifier = Modifier.size(22.dp).clickable { onEditClick() })
                     Spacer(modifier = Modifier.width(12.dp))
-
-                    Image(
-                        painter = painterResource(R.drawable.ic_info),
-                        contentDescription = "Info",
-                        modifier = Modifier.size(24.dp)
-                    )
+                    Image(painter = painterResource(R.drawable.ic_info), contentDescription = "Info", modifier = Modifier.size(24.dp))
                 }
             }
-
             Spacer(modifier = Modifier.height(12.dp))
-
-            // 🔹 Zodiac row
             Row(verticalAlignment = Alignment.CenterVertically) {
-
                 Text(sunSign, color = white, fontSize = 15.sp)
-                VerticalDivider(Modifier
-                    .height(16.dp)
-                    .padding(horizontal = 8.dp), color = white)
-
+                VerticalDivider(Modifier.height(16.dp).padding(horizontal = 8.dp), color = white)
                 Text("$moonSign Moon", color = white, fontSize = 15.sp)
-                VerticalDivider(Modifier
-                    .height(16.dp)
-                    .padding(horizontal = 8.dp), color = white)
-
+                VerticalDivider(Modifier.height(16.dp).padding(horizontal = 8.dp), color = white)
                 Text("$risingSign Rising", color = white, fontSize = 15.sp)
             }
-
             Spacer(modifier = Modifier.height(10.dp))
-
-            // 🔹 Date / Time / Location row
             Row(verticalAlignment = Alignment.CenterVertically) {
-
                 Text(date, color = greyInfo, fontSize = 13.sp)
-                VerticalDivider(Modifier
-                    .height(14.dp)
-                    .padding(horizontal = 8.dp), color = greyInfo)
-
+                VerticalDivider(Modifier.height(14.dp).padding(horizontal = 8.dp), color = greyInfo)
                 Text(time, color = greyInfo, fontSize = 13.sp)
-                VerticalDivider(Modifier
-                    .height(14.dp)
-                    .padding(horizontal = 8.dp), color = greyInfo)
-
+                VerticalDivider(Modifier.height(14.dp).padding(horizontal = 8.dp), color = greyInfo)
                 Text(location, color = greyInfo, fontSize = 13.sp)
             }
         }
     }
 }
+
+// ─── ClothoInfoCard ───────────────────────────────────────────────────────────
 
 @Composable
 fun ClothoInfoCard(
@@ -528,96 +364,39 @@ fun ClothoInfoCard(
     modifier: Modifier = Modifier,
     onInfoClick: () -> Unit = {}
 ) {
-
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(14.dp))
-            .border(
-                width = 1.5.dp,
-                color = greyBg,
-                shape = RoundedCornerShape(14.dp)
-            )
+            .border(width = 1.5.dp, color = greyBg, shape = RoundedCornerShape(14.dp))
             .background(cardBlackBg)
     ) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 14.dp, vertical = 16.dp)
-        ) {
-
-            // 🔹 Header
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
+        Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 16.dp)) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Column {
-                    Text(
-                        text = title,
-                        fontSize = 26.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = white
-                    )
-
-                    Text(
-                        text = subtitle,
-                        fontSize = 18.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = white
-                    )
+                    Text(text = title, fontSize = 26.sp, fontFamily = FontFamily(Font(R.font.medium)), color = white)
+                    Text(text = subtitle, fontSize = 18.sp, fontFamily = FontFamily(Font(R.font.medium)), color = white)
                 }
-
                 Image(
                     painter = painterResource(id = R.drawable.ic_info),
                     contentDescription = "Info",
-                    modifier = Modifier
-                        .size(22.dp)
-                        .clickable { onInfoClick() }
+                    modifier = Modifier.size(22.dp).clickable { onInfoClick() }
                 )
             }
-
             Spacer(modifier = Modifier.height(12.dp))
-
-            // 🔹 Description
-            Text(
-                text = description,
-                fontSize = 15.sp,
-                fontFamily = FontFamily(Font(R.font.medium)),
-                color = greyInfo
-            )
+            Text(text = description, fontSize = 15.sp, fontFamily = FontFamily(Font(R.font.medium)), color = greyInfo)
         }
     }
 }
 
+// ─── Preview ──────────────────────────────────────────────────────────────────
 
 @Preview(showBackground = true)
 @Composable
 fun CardsPreview() {
     ClothoTheme {
-//        PersonalInfoCard(
-//            sunSign = "Taurus",
-//            moonSign = "Scorpio",
-//            risingSign = "Leo",
-//            date = "January 15, 1990",
-//            time = "12:00 AM",
-//            location = "London, UK",
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(horizontal = 7.dp, vertical = 10.dp)
-//        )
-
-
         ClothoInfoCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 7.dp, vertical = 10.dp),
-            onInfoClick = {
-                // TODO: show info dialog / bottom sheet
-            }
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 7.dp, vertical = 10.dp),
+            onInfoClick = {}
         )
-
-//        MaxWidthGreyCard()
     }
 }
