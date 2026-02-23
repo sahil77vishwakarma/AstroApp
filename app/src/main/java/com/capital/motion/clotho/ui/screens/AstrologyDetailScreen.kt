@@ -1,5 +1,6 @@
 package com.capital.motion.clotho.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,13 +20,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,12 +35,11 @@ import com.capital.motion.clotho.ui.theme.ClothoTheme
 
 // ─── Colors ───────────────────────────────────────────────────────────────────
 
-private val TextBlack = Color(0xFF1A1A1A)
-private val TextGrey = Color(0xFF888888)
-private val TextLightGrey = Color(0xFFAAAAAA)
-private val AccentPink = Color(0xFFE8837A)   // salmon/pink highlight color from screenshot
-private val DividerGrey = Color(0xFFE0E0E0)
-private val ChartBg = Color(0xFFF7F7F7)
+private val TextBlack    = Color(0xFF1A1A1A)
+private val TextGrey     = Color(0xFF888888)
+private val TextLightGrey= Color(0xFFAAAAAA)
+private val AccentPink   = Color(0xFFE8837A)
+private val DividerGrey  = Color(0xFFE0E0E0)
 
 // ─── Data Models ──────────────────────────────────────────────────────────────
 
@@ -64,11 +64,6 @@ data class UserAstrologyInfo(
     val birthLocation: String
 )
 
-/**
- * [heading]   — bold section title (empty = no heading, just paragraph)
- * [body]      — paragraph text
- * [isHighlighted] — renders body in pink/accent color for key insights
- */
 data class AstrologySection(
     val heading: String = "",
     val body: String,
@@ -85,6 +80,7 @@ fun AstrologyDetailScreen(
 ) {
     val scrollState = rememberScrollState()
 
+    // True scroll-based progress — updates live as user scrolls
     val progress by remember {
         derivedStateOf {
             if (scrollState.maxValue == 0) 0f
@@ -98,7 +94,7 @@ fun AstrologyDetailScreen(
             .background(Color.White)
     ) {
 
-        // ── Sticky Header ─────────────────────────────────────────────────────
+        // ── Sticky header (does not scroll) ───────────────────────────────────
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -189,7 +185,7 @@ fun AstrologyDetailScreen(
                 )
             }
 
-            // Progress bar
+            // ── Progress bar — driven by scrollState ──────────────────────────
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -217,11 +213,11 @@ fun AstrologyDetailScreen(
             Spacer(modifier = Modifier.height(6.dp))
         }
 
-        // ── Scrollable body ───────────────────────────────────────────────────
+        // ── Scrollable content ────────────────────────────────────────────────
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(scrollState)
+                .verticalScroll(scrollState)   // <-- this scrollState drives the progress bar above
                 .padding(horizontal = 18.dp)
         ) {
             Spacer(modifier = Modifier.height(20.dp))
@@ -234,9 +230,7 @@ fun AstrologyDetailScreen(
                 fontWeight = FontWeight.Bold,
                 color = TextBlack
             )
-
             Spacer(modifier = Modifier.height(4.dp))
-
             Text(
                 text = "Sun in ${data.userInfo.sunSign} | Moon in ${data.userInfo.moonSign} | ${data.userInfo.risingSign} Rising",
                 fontSize = 13.sp,
@@ -244,9 +238,7 @@ fun AstrologyDetailScreen(
                 color = TextBlack,
                 lineHeight = 20.sp
             )
-
             Spacer(modifier = Modifier.height(2.dp))
-
             Text(
                 text = "Born ${data.userInfo.birthDate} at ${data.userInfo.birthTime} in ${data.userInfo.birthLocation}",
                 fontSize = 13.sp,
@@ -254,7 +246,6 @@ fun AstrologyDetailScreen(
                 color = TextBlack,
                 lineHeight = 20.sp
             )
-
             if (data.generatedAt.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
@@ -265,44 +256,29 @@ fun AstrologyDetailScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(22.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // ── Natal chart ───────────────────────────────────────────────────
+            // ── Natal chart image ─────────────────────────────────────────────
+            // SIZE: 280x280dp circle — matches the round chart in the screenshot
+            // Replace R.drawable.ic_natal_chart with your Figma export
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
+                modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                Box(
+                Image(
+                    painter = painterResource(id = R.drawable.astor_icon_detail), // 👈 replace with your Figma image
+                    contentDescription = "Natal Chart",
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .size(220.dp)
-                        .clip(RoundedCornerShape(50))   // circle
-                        .border(1.dp, DividerGrey, RoundedCornerShape(50))
-                        .background(ChartBg),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "☽",
-                        fontSize = 48.sp,
-                        color = TextLightGrey
-                    )
-                    // 👉 Replace with your actual chart image:
-                    // Image(
-                    //     painter = rememberAsyncImagePainter(chartImageUrl),
-                    //     contentDescription = "Natal Chart",
-                    //     modifier = Modifier.fillMaxSize(),
-                    //     contentScale = ContentScale.Fit
-                    // )
-                }
+                        .size(280.dp)                          // circle size matching screenshot
+                        .clip(RoundedCornerShape(50))          // keeps it circular
+                )
             }
 
             Spacer(modifier = Modifier.height(28.dp))
 
             // ── Reading sections ──────────────────────────────────────────────
             data.sections.forEachIndexed { index, section ->
-
-                // Divider + heading for new titled sections
                 if (section.heading.isNotEmpty()) {
                     if (index != 0) {
                         Spacer(modifier = Modifier.height(10.dp))
@@ -319,7 +295,6 @@ fun AstrologyDetailScreen(
                     Spacer(modifier = Modifier.height(10.dp))
                 }
 
-                // Body text — pink if highlighted, black otherwise
                 Text(
                     text = section.body,
                     fontSize = 14.sp,
@@ -327,11 +302,10 @@ fun AstrologyDetailScreen(
                     color = if (section.isHighlighted) AccentPink else TextBlack,
                     lineHeight = 23.sp
                 )
-
                 Spacer(modifier = Modifier.height(14.dp))
             }
 
-            // ── Birth chart grid (bottom of screen in screenshot) ─────────────
+            // ── Birth chart aspect grid image ─────────────────────────────────
             Spacer(modifier = Modifier.height(10.dp))
             HorizontalDivider(color = DividerGrey, thickness = 1.dp)
             Spacer(modifier = Modifier.height(18.dp))
@@ -346,81 +320,18 @@ fun AstrologyDetailScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            BirthChartGrid()
+            // SIZE: full width, square aspect ratio — matches the grid table in the screenshot
+            // Replace R.drawable.ic_birth_chart_grid with your Figma export
+            Image(
+                painter = painterResource(id = R.drawable.birth_chart_img), // 👈 replace with your Figma image
+                contentDescription = "Birth Chart Aspect Grid",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)                           // square, matching the grid proportions
+            )
 
             Spacer(modifier = Modifier.height(60.dp))
-        }
-    }
-}
-
-// ─── Birth chart aspect grid (bottom table in screenshot) ─────────────────────
-
-@Composable
-private fun BirthChartGrid() {
-    val planets = listOf("☉", "☽", "☿", "♀", "♂", "♃", "♄", "⛢", "♆", "♇")
-    val cellSize = 28.dp
-    val accentColors = listOf(
-        Color(0xFFE8837A), Color(0xFF7AB8E8), Color(0xFF88CC88),
-        Color(0xFFE8C87A), Color(0xFFB87AE8)
-    )
-
-    Column {
-        // Lower-triangle grid
-        planets.forEachIndexed { row, planet ->
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                // Row planet label
-                Text(
-                    text = planet,
-                    fontSize = 12.sp,
-                    color = TextGrey,
-                    modifier = Modifier.width(20.dp),
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                )
-                // Cells
-                for (col in 0 until row) {
-                    Box(
-                        modifier = Modifier
-                            .size(cellSize)
-                            .border(0.5.dp, DividerGrey),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        val dotColor = if ((row + col) % 3 == 0)
-                            accentColors[(row + col) % accentColors.size]
-                        else Color.Transparent
-                        if (dotColor != Color.Transparent) {
-                            Box(
-                                modifier = Modifier
-                                    .size(6.dp)
-                                    .clip(RoundedCornerShape(50))
-                                    .background(dotColor)
-                            )
-                        }
-                    }
-                }
-                // Diagonal label cell
-                Box(
-                    modifier = Modifier
-                        .size(cellSize)
-                        .background(Color(0xFFF0F0F0))
-                        .border(0.5.dp, DividerGrey),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = planet, fontSize = 11.sp, color = TextBlack)
-                }
-            }
-        }
-        // Column planet labels at bottom
-        Spacer(modifier = Modifier.height(2.dp))
-        Row {
-            Spacer(modifier = Modifier.width(20.dp))
-            planets.dropLast(1).forEach { p ->
-                Box(
-                    modifier = Modifier.size(cellSize),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = p, fontSize = 11.sp, color = TextGrey)
-                }
-            }
         }
     }
 }
@@ -451,24 +362,18 @@ fun AstrologyDetailScreenPreview() {
                         body = "The Solar Return is one of the most powerful predictive tools in astrology, providing a detailed map of your upcoming year from birthday to birthday. This chart is cast for the exact moment the Sun returns to its natal position, creating a fresh annual cycle filled with new possibilities, challenges, and opportunities for growth."
                     ),
                     AstrologySection(
-                        body = "Your Solar Return chart this year emphasizes themes of personal transformation and growth. The Ascendant of the Solar Return sets the overall tone for the year, colouring every experience with its particular energy and focus."
+                        body = "Your Solar Return chart this year emphasizes themes of personal transformation and growth. The Ascendant of the Solar Return sets the overall tone for the year."
                     ),
                     AstrologySection(
-                        body = "This year's Solar Return Ascendant carries a specific quality of energy that will shape how you approach new beginnings and how others perceive you during this cycle.",
+                        body = "This year's Solar Return Ascendant carries a specific quality of energy that will shape how you approach new beginnings and how others perceive you.",
                         isHighlighted = true
                     ),
                     AstrologySection(
                         heading = "Love and Relationships",
-                        body = "Venus in fire signs brings passion and spontaneity. Venus in earth signs seeks stability and sensual pleasure. Venus in air signs values communication and intellectual connection. Venus in water signs craves emotional depth and soul bonding."
+                        body = "Venus in fire signs brings passion and spontaneity. Venus in earth signs seeks stability and sensual pleasure. Venus in air signs values communication and intellectual connection."
                     ),
                     AstrologySection(
-                        body = "The aspects Venus makes reveal how easily love flows this year. Venus trine Jupiter is one of the most fortunate aspects for romance, bringing expansion and joy in love. Venus square Saturn may indicate delays or obstacles that ultimately strengthen commitment."
-                    ),
-                    AstrologySection(
-                        body = "Mars in your Solar Return shows how you pursue what you desire, including romantic interests. Mars in the Fifth House often indicates active romantic pursuit, while Mars in the Seventh can bring both passion and conflict in partnerships."
-                    ),
-                    AstrologySection(
-                        body = "The Eighth House governs intimacy, sexuality, and deep emotional bonding. Planets here intensify the depth of your relating.",
+                        body = "The aspects Venus makes reveal how easily love flows this year. Venus trine Jupiter is one of the most fortunate aspects for romance, bringing expansion and joy in love.",
                         isHighlighted = true
                     ),
                     AstrologySection(
