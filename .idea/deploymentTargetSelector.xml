@@ -14,7 +14,7 @@
       <SelectionState runConfigName="PreviewSplashDark">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CardsPreview (1)">
+      <SelectionState runConfigName="WheelPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
