@@ -22,7 +22,7 @@ fun AppNavHost() {
 
     NavHost(
         navController = navController,
-        startDestination = "dashboard"
+        startDestination = "setBirthdate"
     ) {
 
         // ── Dashboard
