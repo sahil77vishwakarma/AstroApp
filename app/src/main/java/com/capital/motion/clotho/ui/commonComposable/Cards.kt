@@ -1,7 +1,9 @@
 package com.capital.motion.clotho.ui.commonComposable
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import com.capital.motion.clotho.R
@@ -11,15 +13,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.style.TextAlign
@@ -30,9 +37,12 @@ import androidx.compose.ui.unit.sp
 import com.capital.motion.clotho.ui.theme.Black
 import com.capital.motion.clotho.ui.theme.ClothoTheme
 import com.capital.motion.clotho.ui.theme.cardBg
+import com.capital.motion.clotho.ui.theme.cardBlackBg
 import com.capital.motion.clotho.ui.theme.creditBg
+import com.capital.motion.clotho.ui.theme.greyBg
 import com.capital.motion.clotho.ui.theme.greyInfo
 import com.capital.motion.clotho.ui.theme.greySubTitle
+import com.capital.motion.clotho.ui.theme.white
 import com.capital.motion.clotho.ui.theme.yellowBg
 
 @Composable
@@ -106,7 +116,7 @@ fun MaxWidthCard(title : String, subTitle: String,credits : Int, info : String,n
                 Text(
                     text = "$title",
                     style = TextStyle(
-                        fontSize = 25.sp,
+                        fontSize = 28.sp,
                         fontFamily = FontFamily(Font(R.font.medium)),
                         textAlign = TextAlign.Start,
                         color = Black
@@ -123,7 +133,7 @@ fun MaxWidthCard(title : String, subTitle: String,credits : Int, info : String,n
             Text(
                 text = "$subTitle",
                 style = TextStyle(
-                    fontSize = 25.sp,
+                    fontSize = 24.sp,
                     fontFamily = FontFamily(Font(R.font.medium)),
                     color = greySubTitle
                 )
@@ -135,7 +145,7 @@ fun MaxWidthCard(title : String, subTitle: String,credits : Int, info : String,n
             Text(
                 text = "$info",
                 style = TextStyle(
-                    fontSize = 25.sp,
+                    fontSize = 22.sp,
                     fontFamily = FontFamily(Font(R.font.medium)),
                     color = greyInfo
                 )
@@ -148,13 +158,11 @@ fun MaxWidthCard(title : String, subTitle: String,credits : Int, info : String,n
 
 
 @Composable
-fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,date : Boolean,data : String) {
+fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,date : Boolean,data : String,  modifier: Modifier = Modifier) {
 
 
     Box(
-        modifier = Modifier
-            .width(250.dp)
-            .padding(horizontal = 7.dp, vertical = 15.dp)
+        modifier.padding(horizontal = 7.dp, vertical = 10.dp)
             .clip(RoundedCornerShape(14.dp))
             .border(
                 width = 1.5.dp,
@@ -167,7 +175,7 @@ fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,d
         Text(
             text = "$credits credits",
             style = TextStyle(
-                fontSize = 12.sp,
+                fontSize = 10.sp,
                 fontFamily = FontFamily(Font(R.font.semi_bold)), color = greyInfo
             ),
             modifier = Modifier.align(Alignment.TopEnd)
@@ -182,7 +190,7 @@ fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,d
             Column(
                 modifier = Modifier.fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 17.dp)
-                    .padding(end = 80.dp)
+                    .padding(end = 10.dp)
             ) {
 
                 Row() {
@@ -221,7 +229,7 @@ fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,d
                 Text(
                     text = "$subTitle",
                     style = TextStyle(
-                        fontSize = 12.sp,
+                        fontSize = 15.sp,
                         fontFamily = FontFamily(Font(R.font.medium)),
                         color = greySubTitle
                     )
@@ -233,7 +241,7 @@ fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,d
                 Text(
                     text = "$info",
                     style = TextStyle(
-                        fontSize = 9.sp,
+                        fontSize = 15.sp,
                         fontFamily = FontFamily(Font(R.font.medium)),
                         color = greyInfo
                     )
@@ -282,19 +290,116 @@ fun MinWidthCard(title : String, subTitle: String,credits : Int, info : String,d
         }
     }
 
+@Composable
+fun MaxWidthGreyCard() {
 
 
+    Box(
+        modifier = Modifier
+            .padding(horizontal = 7.dp, vertical = 10.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .border(
+                width = 1.5.dp,
+                color = greyBg,
+                shape = RoundedCornerShape(14.dp)
+            )
+            .background(cardBlackBg)
+
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 10.dp, vertical = 15.dp)
+
+        ) {
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = "YOU.",
+                    style = TextStyle(
+                        fontSize = 28.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = white
+                    )
+                )
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_edit),
+                    contentDescription = "Edit",
+                    modifier = Modifier.size(24.dp)
+                )
+
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = "Personal Details",
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontFamily = FontFamily(Font(R.font.medium)),
+                    color = white
+                )
+            )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Row  {
+
+                Text(
+                    text = "Taurus",
+                    style = TextStyle(
+                        fontSize = 15.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = white
+                    )
+                )
+
+                VerticalDivider(
+                    modifier = Modifier.height(18.dp)
+                        .padding(horizontal = 8.dp),
+                    color = white,
+                    thickness = 1.dp
+                )
+
+
+                Text(
+                    text = "Scorpio Moon",
+                    style = TextStyle(
+                        fontSize = 15.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = white
+                    )
+                )
+
+                VerticalDivider(
+                    modifier = Modifier.height(18.dp)
+                        .padding(horizontal = 8.dp),
+                    color = white,
+                    thickness = 1.dp
+                )
+
+                Text(
+                    text = "Leo Rising",
+                    style = TextStyle(
+                        fontSize = 15.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = white
+                    )
+                )
+            }
+        }
+    }
+}
 @Preview(showBackground = true)
 @Composable
 fun CardsPreview() {
     ClothoTheme {
-        MinWidthCard("Monthly Cycle","Lunar Return Forecast",5,"Your emotional landscape forecast.",true,"December (12/12)")
-        /*MaxWidthCard(
-        "Your Pattern",
-            "Natal Chart Analysis",
-            5,
-            "Your cosmic blueprint at the moment of your birth, revealing personality and destiny.",
-            false
-            )*/
+        MaxWidthGreyCard()
+
     }
 }

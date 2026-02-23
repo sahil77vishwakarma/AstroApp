@@ -8,10 +8,16 @@ import androidx.compose.ui.layout.ContentScale
 import com.capital.motion.clotho.ui.commonComposable.MaxWidthCard
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import com.capital.motion.clotho.R
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.capital.motion.clotho.ui.commonComposable.MaxWidthGreyCard
 import com.capital.motion.clotho.ui.commonComposable.MinWidthCard
 
 @Composable
@@ -42,10 +48,34 @@ fun DashboardScreen(){
             )
 
 
-        //    Row()
-            MinWidthCard("Monthly Cycle","Lunar Return Forecast",5,"Your emotional landscape forecast.",true,"December (12/12)")
-            MinWidthCard("Monthly Cycle","Lunar Return Forecast",5,"Your emotional landscape forecast.",true,"December (12/12)")
+            Row (modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(5.dp)){
+                MinWidthCard(
+                    "Monthly Cycle",
+                    "Lunar Return Forecast",
+                    5,
+                    "Your emotional landscape forecast.",
+                    true,
+                    "December (12/12)",
+                    modifier = Modifier.weight(1f)
+                )
+                MinWidthCard(
+                    "Monthly Cycle",
+                    "Lunar Return Forecast",
+                    5,
+                    "Your emotional landscape forecast.",
+                    true,
+                    "December (12/12)",
+                    modifier = Modifier.weight(1f)
+                )
 
+            }
+
+            MaxWidthGreyCard()
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            MaxWidthGreyCard()
 
         }
     }
