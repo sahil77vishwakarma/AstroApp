@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
+import androidx.navigation.NavController
 import com.capital.motion.clotho.R
 import com.capital.motion.clotho.ui.theme.ClothoTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -32,7 +33,7 @@ import java.util.*
 import kotlin.math.absoluteValue
 
 @Composable
-fun SetBirthTime() {
+fun SetBirthTime(navController: NavController) {
 
     var selectedHour by remember { mutableStateOf(12) }
     var selectedMinute by remember { mutableStateOf(0) }
@@ -100,6 +101,8 @@ fun SetBirthTime() {
 
             Button(
                 onClick = {
+                    navController.navigate("dashboard")
+
                     println(String.format("%02d:%02d", selectedHour, selectedMinute))
                 },
                 modifier = Modifier
@@ -115,7 +118,9 @@ fun SetBirthTime() {
             Spacer(Modifier.height(10.dp))
 
             Button(
-                onClick = { },
+                onClick = {
+                    navController.navigate("dashboard")
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 30.dp)
@@ -280,6 +285,6 @@ fun IOSTimePicker24h(
 @Composable
 fun BirthPreview() {
     ClothoTheme {
-        SetBirthTime()
+       // SetBirthTime()
     }
 }

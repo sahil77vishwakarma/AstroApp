@@ -41,13 +41,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.capital.motion.clotho.R
 import com.capital.motion.clotho.ui.commonComposable.MaxWidthGreyCard
 import com.capital.motion.clotho.ui.theme.ClothoTheme
 import kotlin.math.absoluteValue
 
 @Composable
-fun SetBirthdate() {
+fun SetBirthdate(navController: NavController) {
 
     val days = (1..31).map { it.toString() }
     val months = listOf(
@@ -136,7 +137,7 @@ fun SetBirthdate() {
 
             Button(
                 onClick = {
-
+                    navController.navigate("setBirthTime")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -284,6 +285,6 @@ fun IOSWheelTimePicker(
 fun WheelPreview() {
     ClothoTheme {
 
-        SetBirthdate()
+     //   SetBirthdate()
     }
 }

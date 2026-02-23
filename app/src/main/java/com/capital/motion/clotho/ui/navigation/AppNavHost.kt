@@ -10,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import com.capital.motion.clotho.ui.screens.AstrologyDetailScreen
 import com.capital.motion.clotho.ui.screens.AstrologyViewModel
 import com.capital.motion.clotho.ui.screens.DashboardScreen
+import com.capital.motion.clotho.ui.screens.SetBirthTime
+import com.capital.motion.clotho.ui.screens.SetBirthdate
 
 @Composable
 fun AppNavHost() {
@@ -23,12 +25,22 @@ fun AppNavHost() {
         startDestination = "dashboard"
     ) {
 
-        // ── Dashboard ─────────────────────────────────────────────────────────
+        // ── Dashboard
         composable("dashboard") {
             DashboardScreen(
                 navController = navController,
                 viewModel = astrologyViewModel
             )
+        }
+
+        composable("setBirthTime") {
+            SetBirthTime(
+                navController = navController)
+        }
+
+        composable("setBirthdate") {
+            SetBirthdate(
+                navController = navController)
         }
 
         // ── Astrology Detail ──────────────────────────────────────────────────
