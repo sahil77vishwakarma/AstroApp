@@ -1,16 +1,22 @@
 package com.capital.motion.clotho.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -22,6 +28,13 @@ fun DashboardScreen(
     navController: NavController,
     viewModel: AstrologyViewModel = viewModel()
 ) {
+
+
+    val mediumFont   = FontFamily(Font(R.font.medium))
+    val semiBoldFont = FontFamily(Font(R.font.semi_bold))
+    val mediumChatFont = FontFamily(Font(R.font.inter_regular))
+
+
     // User info — in a real app this comes from your user ViewModel/repository
     val userInfo = UserAstrologyInfo(
         sunSign = "Taurus",
@@ -46,10 +59,42 @@ fun DashboardScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp)
+                .padding(vertical = 20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             val cardPadding = Modifier.padding(horizontal = 7.dp, vertical = 10.dp)
+
+            // ── Top bar ───────────────────────────────────────────────────────
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 25.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Left: hamburger + title close together
+
+                Text(
+                    text = "DASHBOARD",
+                    fontSize = 18.sp,
+                    fontFamily = mediumChatFont,
+                    color = TextWhite,
+                    letterSpacing = 4.sp
+                )
+
+                // Right: new chat icon
+                Image(
+                    painter = painterResource(id = R.drawable.close_icon),
+                    contentDescription = "Open AI Chat",
+                    modifier = Modifier
+                        .size(10.dp)
+                        .clickable {
+                            navController.navigate("ai_chat")
+                        }
+                )
+
+
+            }
 
             // 🔹 Personal Info Card
             PersonalInfoCard(
