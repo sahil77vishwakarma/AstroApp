@@ -32,21 +32,21 @@ fun AppNavHost() {
     ) {
 
 
-        // ───────────────── Dashboard ─────────────────
+//         ───────────────── Dashboard ─────────────────
         composable(
             route = "dashboard",
             enterTransition = {
                 // Dashboard comes IN from LEFT
                 slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(1000)
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(800)
                 )
             },
-            popExitTransition = {
+            exitTransition = {
                 // Dashboard goes OUT to LEFT on back
                 slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(1000)
+                    animationSpec = tween(800)
                 )
             }
         ) {
@@ -56,7 +56,7 @@ fun AppNavHost() {
             )
         }
 
-//        // ── Dashboard
+        // ── Dashboard
 //        composable("dashboard") {
 //            DashboardScreen(
 //                navController = navController,
@@ -96,22 +96,33 @@ fun AppNavHost() {
 
 
         // ───────────────── AI Chat ─────────────────
+//        composable(
+//            route = "ai_chat",
+//            exitTransition = {
+//                // AI Chat goes OUT to RIGHT
+//                slideOutOfContainer(
+//                    AnimatedContentTransitionScope.SlideDirection.Right,
+//                    animationSpec = tween(1000)
+//                )
+//            },
+//            popEnterTransition = {
+//                // AI Chat comes back IN from RIGHT
+//                slideIntoContainer(
+//                    AnimatedContentTransitionScope.SlideDirection.Right,
+//                    animationSpec = tween(1000)
+//                )
+//            }
+//        ) {
+//            AIChatScreen(
+//                onMenuClick = {
+//                    navController.navigate("dashboard")
+//                }
+//            )
+//        }
+
+
         composable(
-            route = "ai_chat",
-            exitTransition = {
-                // AI Chat goes OUT to RIGHT
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(1000)
-                )
-            },
-            popEnterTransition = {
-                // AI Chat comes back IN from RIGHT
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(1000)
-                )
-            }
+            route = "ai_chat"
         ) {
             AIChatScreen(
                 onMenuClick = {

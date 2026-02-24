@@ -106,7 +106,7 @@ fun SetBirthTime(navController: NavController) {
 
             Button(
                 onClick = {
-                    navController.navigate("setBirthPlace")
+                    navController.navigate("ai_chat")
 
                     println(String.format("%02d:%02d", selectedHour, selectedMinute))
                 },
