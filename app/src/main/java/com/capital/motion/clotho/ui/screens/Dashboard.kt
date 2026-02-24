@@ -59,7 +59,7 @@ fun DashboardScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 20.dp)
+                .padding(vertical = 25.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             val cardPadding = Modifier.padding(horizontal = 7.dp, vertical = 10.dp)

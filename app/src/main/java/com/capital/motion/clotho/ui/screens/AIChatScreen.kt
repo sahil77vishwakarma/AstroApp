@@ -120,7 +120,7 @@ fun AIChatScreen(
                 .background(BgDark.copy(alpha = 0.75f))
         )
 
-        Column(modifier = Modifier.fillMaxSize().padding(vertical = 20.dp)) {
+        Column(modifier = Modifier.fillMaxSize().padding(vertical = 25.dp)) {
 
             // ── Top bar ───────────────────────────────────────────────────────
             Row(
