@@ -15,6 +15,7 @@ import com.capital.motion.clotho.ui.screens.AIChatScreen
 import com.capital.motion.clotho.ui.screens.AstrologyDetailScreen
 import com.capital.motion.clotho.ui.screens.AstrologyViewModel
 import com.capital.motion.clotho.ui.screens.DashboardScreen
+import com.capital.motion.clotho.ui.screens.SetBirthPlace
 import com.capital.motion.clotho.ui.screens.SetBirthTime
 import com.capital.motion.clotho.ui.screens.SetBirthdate
 
@@ -70,6 +71,11 @@ fun AppNavHost() {
 
         composable("setBirthdate") {
             SetBirthdate(
+                navController = navController)
+        }
+
+        composable("setBirthPlace") {
+            SetBirthPlace(
                 navController = navController)
         }
 

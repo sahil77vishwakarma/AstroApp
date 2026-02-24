@@ -86,16 +86,16 @@ fun WelcomeScreen(navController: NavController) {
                 fontFamily = FontFamily(Font(R.font.inter_regular)),
             )
 
-            CommonText(
+        /*    CommonText(
                 text = "I ALREADY HAVE AN ACCOUNT",
                 fontSize = 15.sp,
                 color = editTextColor,
                 fontWeight = FontWeight.Light,
                 fontFamily = FontFamily(Font(R.font.inter_medium)),
                 onClick = { }
-            )
+            )*/
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(80.dp))
 
             RectangleButton(text = "GET STARTED", onClick = {  navController.navigate("setBirthdate") }, borderColor = rectangleBtnBorderColor)
 

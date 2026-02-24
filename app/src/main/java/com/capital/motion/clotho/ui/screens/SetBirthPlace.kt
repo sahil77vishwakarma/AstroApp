@@ -25,8 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.capital.motion.clotho.R
+import com.capital.motion.clotho.ui.commonComposable.buttons.RectangleButton
 import com.capital.motion.clotho.ui.theme.Black
 import com.capital.motion.clotho.ui.theme.greyTextBg
+import com.capital.motion.clotho.ui.theme.rectangleBtnBorderColor
 
 @Composable
 fun SetBirthPlace(navController: NavController) {
@@ -57,7 +59,8 @@ fun SetBirthPlace(navController: NavController) {
         )
 
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -76,6 +79,11 @@ fun SetBirthPlace(navController: NavController) {
                     .padding(horizontal = 12.dp, vertical = 8.dp),
                 letterSpacing = 2.sp
             )
+
+            Spacer(modifier = Modifier.height(90.dp))
+
+            RectangleButton(text = "FINISH", onClick = {  navController.navigate("dashboard") }, borderColor = rectangleBtnBorderColor)
+
 
 
         }
