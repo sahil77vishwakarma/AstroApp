@@ -109,11 +109,11 @@ private fun cosmicColors(variant: CosmicVariant) = if (variant == CosmicVariant.
     )
 } else {
     CosmicColors(
-        outer        = Color(0xCCFFFFFF), inner        = Color(0x66FFFFFF),
-        core         = Color(0x33FFFFFF), house        = Color(0x40FFFFFF),
-        zodiac       = Color(0xB3FFFFFF), aspect       = Color(0x99FFFFFF),
-        planetBg     = Color(0x80000000), planetStroke = Color(0x66FFFFFF),
-        planetText   = Color(0xE6FFFFFF), center       = Color(0x80FFFFFF),
+        outer        = Color(0xCC000000), inner        = Color(0x66494949),
+        core         = Color(0xCC000000), house        = Color(0xCC000000),
+        zodiac       = Color(0xB3000000), aspect       = Color(0xFF000000),
+        planetBg     = Color(0xFFE3E3E3), planetStroke = Color(0xFF363535),
+        planetText   = Color(0xFF000000), center       = Color(0x80FFFFFF),
     )
 }
 

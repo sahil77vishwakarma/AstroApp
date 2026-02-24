@@ -89,7 +89,7 @@ fun MaxWidthCard(
                 expanded = true
 
                 scope.launch {
-                    delay(2640L)   // same animation time as MinWidthCard
+                    delay(2500L)   // same animation time as MinWidthCard
                     onClick()
                     expanded = false
                     isAnimating = false
@@ -175,7 +175,7 @@ fun MaxWidthCard(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFFD7D7D4).copy(alpha = 0.82f)),
+                    .background(Color(0xFFE3E3E3).copy(alpha = 0.82f)),
                 contentAlignment = Alignment.Center
             ) {
                 val animationSize = with(LocalDensity.current) {
@@ -222,7 +222,7 @@ fun MinWidthCard(
                 expanded = true           // show animation
 
                 scope.launch {
-                    delay(2640L)           // ⏱ animation duration
+                    delay(2500L)           // ⏱ animation duration
                     onClick()             // 🚀 navigate AFTER animation
                     expanded = false      // optional reset
                     isAnimating = false
@@ -338,7 +338,7 @@ fun MinWidthCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .background(Color(0xFFD7D7D4).copy(alpha = 0.82f)),// fills the locked height from parent Box
+                    .background(Color(0xFFE3E3E3).copy(alpha = 0.82f)),// fills the locked height from parent Box
                 contentAlignment = Alignment.Center
             ) {
 //                Image(
