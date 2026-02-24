@@ -119,9 +119,9 @@ fun SignInScreen(navController: NavController) {
 
 
             CommonButton("Sign In",{
-                navController.navigate("dashboard")
+                navController.navigate("ai_chat")
 
-            },false)
+            },true)
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -148,15 +148,15 @@ fun SignInScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
 
 
-            CommonSocialButton("Continue with Apple",R.drawable.ic_apple,{ navController.navigate("dashboard") })
+            CommonSocialButton("Continue with Apple",R.drawable.ic_apple,{ navController.navigate("ai_chat") })
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            CommonSocialButton("Continue with Google",R.drawable.ic_google,{ navController.navigate("dashboard")})
+            CommonSocialButton("Continue with Google",R.drawable.ic_google,{ navController.navigate("ai_chat")})
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            CommonSocialButton("Continue with Facebook",R.drawable.ic_facebook,{navController.navigate("dashboard") })
+            CommonSocialButton("Continue with Facebook",R.drawable.ic_facebook,{navController.navigate("ai_chat") })
 
 
         }

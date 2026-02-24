@@ -18,6 +18,8 @@ import com.capital.motion.clotho.ui.screens.DashboardScreen
 import com.capital.motion.clotho.ui.screens.SetBirthPlace
 import com.capital.motion.clotho.ui.screens.SetBirthTime
 import com.capital.motion.clotho.ui.screens.SetBirthdate
+import com.capital.motion.clotho.ui.screens.SignInScreen
+import com.capital.motion.clotho.ui.screens.WelcomeScreen
 
 @Composable
 fun AppNavHost() {
@@ -28,7 +30,7 @@ fun AppNavHost() {
 
     NavHost(
         navController = navController,
-        startDestination = "setBirthdate",
+        startDestination = "welcomeScreen",
     ) {
 
 
@@ -76,6 +78,16 @@ fun AppNavHost() {
 
         composable("setBirthPlace") {
             SetBirthPlace(
+                navController = navController)
+        }
+
+        composable("welcomeScreen") {
+            WelcomeScreen(
+                navController = navController)
+        }
+
+        composable("signInScreen") {
+            SignInScreen(
                 navController = navController)
         }
 

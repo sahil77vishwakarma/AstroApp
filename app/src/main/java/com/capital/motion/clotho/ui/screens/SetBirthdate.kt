@@ -2,6 +2,7 @@ package com.capital.motion.clotho.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.capital.motion.clotho.R
 import com.capital.motion.clotho.ui.commonComposable.MaxWidthGreyCard
+import com.capital.motion.clotho.ui.theme.Black
 import com.capital.motion.clotho.ui.theme.ClothoTheme
 import kotlin.math.absoluteValue
 
@@ -52,114 +54,160 @@ fun SetBirthdate(navController: NavController) {
 
     val days = (1..31).map { it.toString() }
     val months = listOf(
-        "January","February","March","April","May","June",
-        "July","August","September","October","November","December"
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
     )
     val years = (1980..2000).map { it.toString() }
+
     val itemHeight = 54.dp
     val visibleItems = 5
 
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        Image(
-            painter = painterResource(R.drawable.moon_bg),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
-        Box(
-            Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.65f))
-        )
-
-        /*Image(
-            painter = painterResource(R.drawable.back_arrow),
-            contentDescription = null,
-            modifier = Modifier.padding(vertical = 30.dp, horizontal = 20.dp),
-            contentScale = ContentScale.Crop
-        )*/
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
 
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxSize()
         ) {
 
-
-
-            Spacer(modifier = Modifier.height(90.dp))
-
-            Text(
-                "WHAT’S YOUR BIRTH DATE ?",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontFamily = FontFamily(Font(R.font.inter_regular)),
-                letterSpacing = 2.sp
-            )
-
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-
-
-            Row(
-                modifier = Modifier.height(itemHeight * visibleItems),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IOSWheelTimePicker(days,   Modifier.weight(1f),onItemSelected = { selectedDay ->
-                    println(selectedDay)
-                })
-                IOSWheelTimePicker(months, Modifier.weight(1f),onItemSelected = { selectedDay ->
-                    println(selectedDay)
-                })
-                IOSWheelTimePicker(years,  Modifier.weight(1f),onItemSelected = { selectedDay ->
-                    println(selectedDay)
-                })
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-
-            Text(
-                "We use your date of birth to calculate your astrological chart",
-                color = Color.White.copy(.7f),
-                fontSize = 12.sp,
-                fontFamily = FontFamily(Font(R.font.inter_regular)),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 30.dp)
-            )
-
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-
-            Button(
-                onClick = {
-                    navController.navigate("setBirthTime")
-                },
+            // ✅ TOP HALF MOON HEADER
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 30.dp)
-                    .height(50.dp),
-                shape = RectangleShape,
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+                    .height(260.dp)
             ) {
 
-                Text("CONTINUE",
-                    fontFamily = FontFamily(Font(R.font.medium)),
-                    color = Color.Black)
+                Image(
+                    painter = painterResource(R.drawable.ic_half_moon),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+
+
+                // Back button
+                Image(
+                    painter = painterResource(R.drawable.back_arrow),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(top = 50.dp, start = 20.dp)
+                        .clickable {
+                            navController.navigateUp()
+                        }
+                )
+
+
+                // Title overlay
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .background(Color.Black.copy(alpha = 0.5f))
+                ) {
+
+                    Text(
+                        text = "WHAT’S YOUR BIRTH DATE ?",
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        letterSpacing = 2.sp,
+                        fontFamily = FontFamily(Font(R.font.inter_regular)),
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(vertical = 16.dp)
+                    )
+
+                }
+
             }
 
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+
+                // Wheel Picker
+                Row(
+                    modifier = Modifier.height(itemHeight * visibleItems),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    IOSWheelTimePicker(
+                        days,
+                        Modifier.weight(1f),
+                        onItemSelected = {}
+                    )
+
+                    IOSWheelTimePicker(
+                        months,
+                        Modifier.weight(1f),
+                        onItemSelected = {}
+                    )
+
+                    IOSWheelTimePicker(
+                        years,
+                        Modifier.weight(1f),
+                        onItemSelected = {}
+                    )
+
+                }
+
+
+                Spacer(modifier = Modifier.weight(1f))
+
+
+                Text(
+                    text = "We use your date of birth to calculate your astrological chart",
+                    color = Color.White.copy(.7f),
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                    fontFamily = FontFamily(Font(R.font.inter_regular))
+                )
+
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+
+                Button(
+                    onClick = {
+                        navController.navigate("setBirthTime")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    shape = RectangleShape,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White
+                    )
+                ) {
+
+                    Text(
+                        text = "CONTINUE",
+                        color = Color.Black,
+                        fontFamily = FontFamily(Font(R.font.inter_medium))
+                    )
+
+                }
+
+
+                Spacer(modifier = Modifier.height(80.dp))
+
+            }
 
         }
 
     }
-}
 
+}
 @Composable
 fun IOSWheelTimePicker(
     items: List<String>,
@@ -243,7 +291,7 @@ fun IOSWheelTimePicker(
 
                     Text(
                         text = item,
-                        fontSize = 22.sp,
+                        fontSize = 18.sp,
                         fontFamily = FontFamily(Font(R.font.inter_semibold)),
                         color = Color.White.copy(alpha),
                         textAlign = TextAlign.Center,

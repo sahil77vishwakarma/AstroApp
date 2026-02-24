@@ -33,116 +33,167 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import java.util.*
 import kotlin.math.absoluteValue
-
 @Composable
 fun SetBirthTime(navController: NavController) {
 
     var selectedHour by remember { mutableStateOf(12) }
     var selectedMinute by remember { mutableStateOf(0) }
 
-    Box(Modifier.fillMaxSize()
-        .background(color = Black)
-        .padding(vertical = 30.dp)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
 
-        Image(
-            painter = painterResource(R.drawable.moon_bg),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
 
-        Box(
-            Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.65f))
-        )
-
-        Image(
-            painter = painterResource(R.drawable.back_arrow),
-            contentDescription = null,
-             modifier = Modifier.padding(vertical = 30.dp, horizontal = 20.dp)
-                 .clickable{ navController.navigateUp() },
-            contentScale = ContentScale.Crop
-        )
         Column(
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxSize()
         ) {
 
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(260.dp)
+            ) {
+
+                Image(
+                    painter = painterResource(R.drawable.ic_half_moon),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
 
 
-            Spacer(Modifier.height(80.dp))
+                Image(
+                    painter = painterResource(R.drawable.back_arrow),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(top = 50.dp, start = 20.dp)
+                        .clickable {
+                            navController.navigateUp()
+                        }
+                )
 
-            Text(
-                "WHAT TIME WERE YOU BORN?",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontFamily = FontFamily(Font(R.font.inter_regular)),
-                letterSpacing = 2.sp
-            )
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .background(Color.Black.copy(alpha = 0.6f))
+                ) {
+                    Text(
+                        text = "WHAT TIME WERE YOU BORN?",
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        letterSpacing = 2.sp,
+                        fontFamily = FontFamily(Font(R.font.inter_regular)),
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(vertical = 14.dp)
+                    )
 
-            Spacer(Modifier.height(40.dp))
-
-            IOSTimePicker24h(
-                onTimeSelected = { hour, minute ->
-                    selectedHour = hour
-                    selectedMinute = minute
                 }
-            )
 
-            Spacer(Modifier.weight(1f))
-
-            Text(
-                "We use your time of birth to calculate your astrological chart",
-                color = Color.White.copy(alpha = 0.7f),
-                fontSize = 12.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 30.dp)
-            )
-
-            Spacer(Modifier.height(20.dp))
-
-            Button(
-                onClick = {
-                    navController.navigate("ai_chat")
-
-                    println(String.format("%02d:%02d", selectedHour, selectedMinute))
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 30.dp)
-                    .height(50.dp),
-                shape = RectangleShape,
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White)
-            ) {
-                Text("CONTINUE", color = Color.Black)
             }
 
-            Spacer(Modifier.height(10.dp))
 
-            Button(
-                onClick = {
-                    navController.navigate("dashboard")
-                },
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 30.dp)
-                    .height(50.dp),
-                shape = RectangleShape,
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                    .fillMaxSize()
+                    .padding(horizontal = 30.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("DON’T KNOW? SKIP", color = Color.White)
+
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+
+                // Time picker centered
+                Box(
+                    modifier = Modifier.weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    IOSTimePicker24h(
+                        onTimeSelected = { hour, minute ->
+                            selectedHour = hour
+                            selectedMinute = minute
+                        }
+                    )
+
+                }
+
+
+                Text(
+                    text = "We use your time of birth to calculate your astrological chart",
+                    color = Color.White.copy(alpha = 0.7f),
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center
+                )
+
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+
+                // Continue button
+                Button(
+                    onClick = {
+
+                        navController.navigate("setBirthPlace")
+
+                        println(String.format("%02d:%02d", selectedHour, selectedMinute))
+
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    shape = RectangleShape,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White
+                    )
+                ) {
+
+                    Text(
+                        "CONTINUE",
+                        color = Color.Black
+                    )
+
+                }
+
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+
+                // Skip button
+                Button(
+                    onClick = {
+                       // navController.navigate("dashboard")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    shape = RectangleShape,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent
+                    )
+                ) {
+
+                    Text(
+                        "DON’T KNOW? SKIP",
+                        color = Color.White
+                    )
+
+                }
+
+
+                Spacer(modifier = Modifier.height(40.dp))
+
             }
 
-            Spacer(Modifier.height(30.dp))
         }
+
     }
 }
-
-
-
 
 @Composable
 fun IOSInfiniteWheel(
@@ -213,7 +264,7 @@ fun IOSInfiniteWheel(
                 ) {
                     Text(
                         text = items[index % items.size],
-                        fontSize = 26.sp,
+                        fontSize = 20.sp,
                         color = Color.White.copy(alpha = alpha),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.graphicsLayer {
