@@ -118,7 +118,10 @@ fun SignInScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
 
 
-            CommonButton("Sign In",{},false)
+            CommonButton("Sign In",{
+                navController.navigate("dashboard")
+
+            },false)
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -139,21 +142,21 @@ fun SignInScreen(navController: NavController) {
                 color = editTextColor,
                 fontWeight = FontWeight.Light,
                 fontFamily = FontFamily(Font(R.font.inter_regular)),
-                onClick = { }
+                onClick = null
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
 
-            CommonSocialButton("Continue with Apple",R.drawable.ic_apple,{})
+            CommonSocialButton("Continue with Apple",R.drawable.ic_apple,{ navController.navigate("dashboard") })
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            CommonSocialButton("Continue with Google",R.drawable.ic_google,{})
+            CommonSocialButton("Continue with Google",R.drawable.ic_google,{ navController.navigate("dashboard")})
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            CommonSocialButton("Continue with Facebook",R.drawable.ic_facebook,{})
+            CommonSocialButton("Continue with Facebook",R.drawable.ic_facebook,{navController.navigate("dashboard") })
 
 
         }

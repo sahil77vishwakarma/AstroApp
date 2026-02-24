@@ -26,8 +26,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.capital.motion.clotho.R
 import com.capital.motion.clotho.ui.commonComposable.GalaxyStarsLayer
+import com.capital.motion.clotho.ui.commonComposable.buttons.RectangleButton
 import com.capital.motion.clotho.ui.commonComposable.texts.CommonText
 import com.capital.motion.clotho.ui.theme.editTextColor
+import com.capital.motion.clotho.ui.theme.rectangleBtnBorderColor
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
@@ -36,7 +38,6 @@ fun WelcomeScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF06060F)),
-        // contentAlignment = Alignment.Center
     ) {
 
         GalaxyStarsLayer()
@@ -63,18 +64,16 @@ fun WelcomeScreen(navController: NavController) {
                 color = Color.White,
                 fontWeight = FontWeight.ExtraBold,
                 fontFamily = FontFamily(Font(R.font.inter_light)),
-                onClick = { }
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             CommonText(
                 text = "Personalized Astrology",
-                fontSize = 20.sp,
+                fontSize = 15.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Light,
                 fontFamily = FontFamily(Font(R.font.inter_regular)),
-                onClick = { }
             )
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -85,7 +84,6 @@ fun WelcomeScreen(navController: NavController) {
                 color = editTextColor,
                 fontWeight = FontWeight.Light,
                 fontFamily = FontFamily(Font(R.font.inter_regular)),
-                onClick = { }
             )
 
             CommonText(
@@ -96,6 +94,10 @@ fun WelcomeScreen(navController: NavController) {
                 fontFamily = FontFamily(Font(R.font.inter_medium)),
                 onClick = { }
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            RectangleButton(text = "GET STARTED", onClick = {  navController.navigate("setBirthdate") }, borderColor = rectangleBtnBorderColor)
 
         }
     }
