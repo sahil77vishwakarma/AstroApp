@@ -74,12 +74,12 @@ fun SetBirthdate(navController: NavController) {
                 .background(Color.Black.copy(alpha = 0.65f))
         )
 
-        Image(
+        /*Image(
             painter = painterResource(R.drawable.back_arrow),
             contentDescription = null,
             modifier = Modifier.padding(vertical = 30.dp, horizontal = 20.dp),
             contentScale = ContentScale.Crop
-        )
+        )*/
 
         Column(
             modifier = Modifier.fillMaxSize(),

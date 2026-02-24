@@ -48,8 +48,6 @@ import com.capital.motion.clotho.ui.theme.greySubTitle
 import com.capital.motion.clotho.ui.theme.white
 import com.capital.motion.clotho.ui.theme.yellowBg
 
-// ─── MaxWidthCard ─────────────────────────────────────────────────────────────
-
 @Composable
 fun MaxWidthCard(
     title: String,

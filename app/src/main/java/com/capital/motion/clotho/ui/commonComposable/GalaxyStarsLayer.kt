@@ -59,10 +59,10 @@ private data class GalaxyStar(
 //  - Occasional red/orange cool stars
 private val STAR_PALETTE = listOf(
     Color(0xFFFFFFFF) to 0.40f,   // white       — 40% of stars
-    Color(0xFFCCDDFF) to 0.25f,   // blue-white  — 25%
-    Color(0xFF8AABFF) to 0.15f,   // blue        — 15%
-    Color(0xFFFFEEAA) to 0.12f,   // yellow      — 12%
-    Color(0xFFFFBB88) to 0.08f,   // orange-red  —  8%
+    Color(0xFFFFFFFF) to 0.25f,   // blue-white  — 25%
+    Color(0xFFFFFFFF) to 0.15f,   // blue        — 15%
+    Color(0xFFFFFFFF) to 0.12f,   // yellow      — 12%
+    Color(0xFFFFFFFF) to 0.08f,   // orange-red  —  8%
 )
 
 private fun randomStarColor(): Color {
@@ -98,7 +98,7 @@ private val GALAXY_STARS: List<GalaxyStar> = List(180) {
 // ═══════════════════════════════════════════════════════════
 
 @Composable
-private fun GalaxyStarsLayer(modifier: Modifier = Modifier) {
+fun GalaxyStarsLayer(modifier: Modifier = Modifier) {
 
     // Single master clock — drives ALL 180 stars cheaply
     val transition = rememberInfiniteTransition(label = "galaxy")

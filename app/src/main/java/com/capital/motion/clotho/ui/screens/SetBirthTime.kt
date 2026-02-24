@@ -2,6 +2,7 @@ package com.capital.motion.clotho.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.*
@@ -25,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.navigation.NavController
 import com.capital.motion.clotho.R
+import com.capital.motion.clotho.ui.theme.Black
 import com.capital.motion.clotho.ui.theme.ClothoTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -38,7 +40,9 @@ fun SetBirthTime(navController: NavController) {
     var selectedHour by remember { mutableStateOf(12) }
     var selectedMinute by remember { mutableStateOf(0) }
 
-    Box(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize()
+        .background(color = Black)
+        .padding(vertical = 30.dp)) {
 
         Image(
             painter = painterResource(R.drawable.moon_bg),
@@ -56,7 +60,8 @@ fun SetBirthTime(navController: NavController) {
         Image(
             painter = painterResource(R.drawable.back_arrow),
             contentDescription = null,
-             modifier = Modifier.padding(vertical = 30.dp, horizontal = 20.dp),
+             modifier = Modifier.padding(vertical = 30.dp, horizontal = 20.dp)
+                 .clickable{ navController.navigateUp() },
             contentScale = ContentScale.Crop
         )
         Column(

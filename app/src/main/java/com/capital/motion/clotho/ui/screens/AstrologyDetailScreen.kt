@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.capital.motion.clotho.R
+import com.capital.motion.clotho.ui.theme.Black
 import com.capital.motion.clotho.ui.theme.ClothoTheme
 
 // ─── Colors ───────────────────────────────────────────────────────────────────
@@ -92,9 +93,10 @@ fun AstrologyDetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .padding(vertical = 40.dp)
     ) {
 
-        // ── Sticky header (does not scroll) ───────────────────────────────────
+        // Sticky header (does not scroll)
         Column(
             modifier = Modifier
                 .fillMaxWidth()

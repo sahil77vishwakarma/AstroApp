@@ -32,7 +32,8 @@ fun DashboardScreen(
         birthLocation = "London, UK"
     )
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()
+        .padding(vertical = 20.dp)) {
 
         // 🔹 Background Image
         Image(
