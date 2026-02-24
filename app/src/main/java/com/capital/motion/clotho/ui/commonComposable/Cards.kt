@@ -1,5 +1,6 @@
 package com.capital.motion.clotho.ui.commonComposable
 
+import android.R.attr.delay
 import android.R.attr.text
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import com.capital.motion.clotho.R
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,12 +24,19 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -37,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.capital.motion.clotho.ui.screens.buildMonthlyCycleData
 import com.capital.motion.clotho.ui.theme.Black
 import com.capital.motion.clotho.ui.theme.ClothoTheme
 import com.capital.motion.clotho.ui.theme.cardBg
@@ -47,9 +57,10 @@ import com.capital.motion.clotho.ui.theme.greyInfo
 import com.capital.motion.clotho.ui.theme.greySubTitle
 import com.capital.motion.clotho.ui.theme.white
 import com.capital.motion.clotho.ui.theme.yellowBg
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 // ─── MaxWidthCard ─────────────────────────────────────────────────────────────
-
 @Composable
 fun MaxWidthCard(
     title: String,
@@ -57,8 +68,14 @@ fun MaxWidthCard(
     credits: Int,
     info: String,
     new: Boolean,
-    onClick: () -> Unit = {}   // ← new
+    onClick: () -> Unit = {}
 ) {
+    var expanded by remember { mutableStateOf(false) }
+    var cardHeight by remember { mutableStateOf(0) }
+
+    val scope = rememberCoroutineScope()
+    var isAnimating by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,75 +83,114 @@ fun MaxWidthCard(
             .clip(RoundedCornerShape(14.dp))
             .border(width = 1.5.dp, color = cardBg, shape = RoundedCornerShape(14.dp))
             .background(color = cardBg)
-            .clickable { onClick() }   // ← new
-    ) {
-        Column(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 12.dp, end = 16.dp),
-            horizontalAlignment = Alignment.End
-        ) {
-            Text(
-                text = "$credits credits",
-                fontSize = 12.sp,
-                fontFamily = FontFamily(Font(R.font.semi_bold)),
-                color = greyInfo,
-                modifier = Modifier
-                    .background(color = creditBg, shape = RoundedCornerShape(50))
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            .onSizeChanged { cardHeight = it.height }
+            .clickable(enabled = !isAnimating) {
+                isAnimating = true
+                expanded = true
+
+                scope.launch {
+                    delay(2640L)   // same animation time as MinWidthCard
+                    onClick()
+                    expanded = false
+                    isAnimating = false
+                }
+            }
+            .then(
+                if (cardHeight > 0)
+                    Modifier.height(with(LocalDensity.current) { cardHeight.toDp() })
+                else Modifier
             )
-            if (new) {
-                Spacer(modifier = Modifier.height(6.dp))
+    ) {
+        if (!expanded) {
+            // ───────── ORIGINAL CONTENT (UNCHANGED) ─────────
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 12.dp, end = 16.dp),
+                horizontalAlignment = Alignment.End
+            ) {
                 Text(
-                    text = "NEW",
+                    text = "$credits credits",
                     fontSize = 12.sp,
                     fontFamily = FontFamily(Font(R.font.semi_bold)),
-                    color = Black,
+                    color = greyInfo,
                     modifier = Modifier
-                        .background(color = yellowBg, shape = RoundedCornerShape(4.dp))
+                        .background(color = creditBg, shape = RoundedCornerShape(50))
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 )
-            }
-        }
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 17.dp)
-                .padding(end = 80.dp)
-        ) {
-            Text(
-                text = title,
-                style = TextStyle(
-                    fontSize = 28.sp,
-                    fontFamily = FontFamily(Font(R.font.medium)),
-                    textAlign = TextAlign.Start,
-                    color = Black
+                if (new) {
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = "NEW",
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily(Font(R.font.semi_bold)),
+                        color = Black,
+                        modifier = Modifier
+                            .background(color = yellowBg, shape = RoundedCornerShape(4.dp))
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 17.dp)
+                    .padding(end = 80.dp)
+            ) {
+                Text(
+                    text = title,
+                    style = TextStyle(
+                        fontSize = 28.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        textAlign = TextAlign.Start,
+                        color = Black
+                    )
                 )
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = subTitle,
-                style = TextStyle(
-                    fontSize = 24.sp,
-                    fontFamily = FontFamily(Font(R.font.medium)),
-                    color = greySubTitle
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = subTitle,
+                    style = TextStyle(
+                        fontSize = 24.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = greySubTitle
+                    )
                 )
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                text = info,
-                style = TextStyle(
-                    fontSize = 22.sp,
-                    fontFamily = FontFamily(Font(R.font.medium)),
-                    color = greyInfo
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = info,
+                    style = TextStyle(
+                        fontSize = 22.sp,
+                        fontFamily = FontFamily(Font(R.font.medium)),
+                        color = greyInfo
+                    )
                 )
-            )
+            }
+
+        } else {
+            // ───────── ANIMATION OVERLAY ─────────
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFD7D7D4).copy(alpha = 0.82f)),
+                contentAlignment = Alignment.Center
+            ) {
+                val animationSize = with(LocalDensity.current) {
+                    (cardHeight * 0.6f).toDp()
+                }
+
+                CosmicLoadingIndicator(
+                    variant = CosmicVariant.LIGHT,
+                    size = animationSize
+                )
+            }
         }
     }
 }
 
-// ─── MinWidthCard ─────────────────────────────────────────────────────────────
 
 @Composable
 fun MinWidthCard(
@@ -145,106 +201,168 @@ fun MinWidthCard(
     date: Boolean,
     data: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}   // ← new
+    onClick: () -> Unit = {}
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
+    // Measure the normal content height once, then lock both states to it
+    var cardHeight by remember { mutableStateOf(0) }
+
+    val scope = rememberCoroutineScope()
+    var isAnimating by remember { mutableStateOf(false) }
+
     Box(
         modifier
             .padding(horizontal = 7.dp, vertical = 10.dp)
             .clip(RoundedCornerShape(14.dp))
             .border(width = 1.5.dp, color = cardBg, shape = RoundedCornerShape(14.dp))
             .background(color = cardBg)
-            .clickable { onClick() }   // ← new
-    ) {
-        Text(
-            text = "$credits credits",
-            style = TextStyle(
-                fontSize = 10.sp,
-                fontFamily = FontFamily(Font(R.font.semi_bold)),
-                color = greyInfo
-            ),
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 12.dp, end = 16.dp)
-                .background(color = creditBg, shape = RoundedCornerShape(50))
-                .padding(horizontal = 8.dp, vertical = 6.dp)
-        )
+            .clickable { isAnimating = true
 
-        Column {
-            Column(
+                expanded = true           // show animation
+
+                scope.launch {
+                    delay(2640L)           // ⏱ animation duration
+                    onClick()             // 🚀 navigate AFTER animation
+                    expanded = false      // optional reset
+                    isAnimating = false
+                }}
+            // Lock height once measured so icon state stays same size
+            .then(
+                if (cardHeight > 0) Modifier.height(with(LocalDensity.current) { cardHeight.toDp() })
+                else Modifier
+            )
+    ) {
+        if (!expanded) {
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 17.dp)
-                    .padding(end = 10.dp)
+                    .onSizeChanged { size -> cardHeight = size.height } // measure here
             ) {
-                Text(
-                    text = title,
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        textAlign = TextAlign.Start,
-                        color = Black
-                    )
-                )
-                if (date) {
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = data,
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            fontFamily = FontFamily(Font(R.font.medium)),
-                            color = greyInfo
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp, vertical = 17.dp)
+                            .padding(end = 10.dp)
+                    ) {
+                        Text(
+                            text = title,
+                            style = TextStyle(
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily(Font(R.font.medium)),
+                                textAlign = TextAlign.Start,
+                                color = Black
+                            )
                         )
-                    )
+                        if (date) {
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = data,
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    fontFamily = FontFamily(Font(R.font.medium)),
+                                    color = greyInfo
+                                )
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = subTitle,
+                            style = TextStyle(
+                                fontSize = 15.sp,
+                                fontFamily = FontFamily(Font(R.font.medium)),
+                                color = greySubTitle
+                            )
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = info,
+                            style = TextStyle(
+                                fontSize = 15.sp,
+                                fontFamily = FontFamily(Font(R.font.medium)),
+                                color = greyInfo
+                            )
+                        )
+                    }
+
+                    if (date) {
+                        Spacer(modifier = Modifier.height(6.dp))
+                        HorizontalDivider(color = Black, thickness = 1.dp)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 10.dp)
+                        ) {
+                            Text(
+                                text = "Dec",
+                                fontSize = 12.sp,
+                                fontFamily = FontFamily(Font(R.font.medium)),
+                                color = Black,
+                                modifier = Modifier.weight(1f),
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "Jan",
+                                fontSize = 12.sp,
+                                fontFamily = FontFamily(Font(R.font.medium)),
+                                color = Black,
+                                modifier = Modifier.weight(1f),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
                 }
-                Spacer(modifier = Modifier.height(10.dp))
+
+                // Credits badge
                 Text(
-                    text = subTitle,
+                    text = "$credits credits",
                     style = TextStyle(
-                        fontSize = 15.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = greySubTitle
-                    )
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = info,
-                    style = TextStyle(
-                        fontSize = 15.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
+                        fontSize = 10.sp,
+                        fontFamily = FontFamily(Font(R.font.semi_bold)),
                         color = greyInfo
-                    )
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(top = 12.dp, end = 16.dp)
+                        .background(color = creditBg, shape = RoundedCornerShape(50))
+                        .padding(horizontal = 8.dp, vertical = 6.dp)
                 )
             }
 
-            if (date) {
-                Spacer(modifier = Modifier.height(6.dp))
-                HorizontalDivider(color = Black, thickness = 1.dp)
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 10.dp)
-                ) {
-                    Text(
-                        text = "Dec",
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = Black,
-                        modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Jan",
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.medium)),
-                        color = Black,
-                        modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
-                    )
+        } else {
+            // ── Icon state — same height as normal content ─────────────────
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .background(Color(0xFFD7D7D4).copy(alpha = 0.82f)),// fills the locked height from parent Box
+                contentAlignment = Alignment.Center
+            ) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.ic_info),
+//                    contentDescription = "Info",
+//                    modifier = Modifier.size(64.dp)
+//                )
+
+                // Size = 80% of card height so it always fits responsively
+                val animationSize = with(LocalDensity.current) {
+                    (cardHeight * 0.6f).toDp()
                 }
+                CosmicLoadingIndicator(
+                    variant = CosmicVariant.LIGHT,
+                    size = animationSize
+                )
             }
         }
     }
 }
+
+
+
+
 
 // ─── MaxWidthGreyCard ─────────────────────────────────────────────────────────
 
@@ -394,9 +512,41 @@ fun ClothoInfoCard(
 @Composable
 fun CardsPreview() {
     ClothoTheme {
-        ClothoInfoCard(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 7.dp, vertical = 10.dp),
-            onInfoClick = {}
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            MinWidthCard(
+                title = "Monthly Cycle",
+                subTitle = "Lunar Return Forecast",
+                credits = 5,
+                info = "Your emotional landscape forecast.",
+                date = true,
+                data = "December (12/12)",
+                modifier = Modifier.weight(1f),
+                onClick = {}
+            )
+
+            MinWidthCard(
+                title = "Weekly Cycle",
+                subTitle = "Moon Transit",
+                credits = 3,
+                info = "Short-term emotional insights.",
+                date = false,
+                data = "",
+                modifier = Modifier.weight(1f),
+                onClick = {}
+            )
+        }
     }
 }
+
+
+
+
+//ClothoInfoCard(
+//            modifier = Modifier.fillMaxWidth().padding(horizontal = 7.dp, vertical = 10.dp),
+//            onInfoClick = {}
+//        )

@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.capital.motion.clotho.ui.commonComposable.SplashScreen
 import com.capital.motion.clotho.ui.navigation.AppNavHost
 import com.capital.motion.clotho.ui.theme.ClothoTheme
 
@@ -22,6 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) { _ ->
                     AppNavHost()   // ← AppNavHost manages navController internally
+//                    SplashScreen()
                 }
             }
         }
