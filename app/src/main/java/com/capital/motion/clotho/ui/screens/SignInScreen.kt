@@ -61,7 +61,7 @@ fun SignInScreen(navController: NavController) {
                 .clickable{
                     navController.navigateUp()
                 }
-                .padding(vertical = 30.dp, horizontal = 20.dp),
+                .padding(vertical = 50.dp, horizontal = 20.dp),
             contentScale = ContentScale.Crop
         )
 
